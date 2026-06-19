@@ -4,6 +4,8 @@ import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.actions.Click;
 import net.serenitybdd.screenplay.actions.Enter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static net.serenitybdd.screenplay.Tasks.instrumented;
 import static org.example.userinterfaces.Compra.*;
@@ -11,12 +13,15 @@ import static org.example.userinterfaces.Carrito.BTN_CART;
 
 public class ComprarProducto implements Task {
 
+    private static final Logger logger = LoggerFactory.getLogger(ComprarProducto.class);
+
     public static ComprarProducto finalizarCompra(){
         return instrumented(ComprarProducto.class);
     }
 
     @Override
     public <T extends Actor> void performAs(T actor) {
+        logger.info("Iniciando proceso de compra");
 
         actor.attemptsTo(
 
@@ -33,5 +38,7 @@ public class ComprarProducto implements Task {
 
                 Click.on(BTN_PURCHASE)
         );
+
+        logger.info("Compra finalizada exitosamente");
     }
 }

@@ -36,4 +36,8 @@ public class Compra {
     public static final Target BTN_PURCHASE =
             Target.the("Comprar")
                     .located(By.xpath("//button[contains(text(),'Purchase')]"));
+
+    public static final Target MENSAJE_CONFIRMACION =
+            Target.the("mensaje de confirmacion")
+                    .located(By.xpath("//div[contains(@class,'sweet-alert')]//h2"));
 }

@@ -1,26 +1,26 @@
-
 buildscript {
     repositories {
         mavenLocal()
-        jcenter()
+        mavenCentral()
+        gradlePluginPortal()
     }
     ext {
-        serenityVersion = "2.1.1"
-        serenityGradleVersion = "2.1.1"
-        serenityCucumberVersion = "1.9.51"
+        serenityVersion = "3.9.8"
+        serenityCucumberVersion = "3.9.8"
     }
     dependencies {
-        classpath("net.serenity-bdd:serenity-gradle-plugin:${serenityVersion}")
+        classpath("net.serenity-bdd.serenity-gradle-plugin:net.serenity-bdd.serenity-gradle-plugin.gradle.plugin:${serenityVersion}")
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'idea'
-apply plugin: 'net.serenity-bdd.aggregator'
+apply plugin: 'net.serenity-bdd.serenity-gradle-plugin'
 
 group 'co.com.AutomatizacionFacebook'
 version '1.0-SNAPSHOT'
-sourceCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
@@ -28,11 +28,11 @@ tasks.withType(JavaCompile) {
 
 repositories {
     mavenLocal()
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
-    implementation 'org.slf4j:slf4j-simple:1.7.7'
+    implementation 'org.slf4j:slf4j-simple:2.0.9'
 
     implementation 'org.hamcrest:hamcrest:2.2'
     implementation "net.serenity-bdd:serenity-cucumber:${serenityCucumberVersion}"
@@ -40,21 +40,17 @@ dependencies {
     implementation "net.serenity-bdd:serenity-junit:${serenityVersion}"
     implementation "net.serenity-bdd:serenity-screenplay-webdriver:${serenityVersion}"
     implementation "net.serenity-bdd:serenity-screenplay:${serenityVersion}"
-    implementation "net.serenity-bdd:serenity-screenplay-rest:${serenityVersion}"
     implementation "net.serenity-bdd:serenity-ensure:${serenityVersion}"
 
-    implementation 'com.jcraft:jsch:0.1.55'
-    implementation 'log4j:log4j:1.2.17'
-
-    implementation 'org.apache.poi:poi:4.1.2'
-    implementation 'org.apache.poi:poi-ooxml:4.1.2'
-    implementation 'org.apache.commons:commons-math3:3.6.1'
+    implementation 'org.apache.poi:poi:5.2.5'
+    implementation 'org.apache.poi:poi-ooxml:5.2.5'
 
     runtimeOnly fileTree(dir: 'libs', include: '*.jar')
 }
 
 test {
     useJUnit()
-    systemProperty "cucumber.options", "--plugin pretty --plugin json:target/cucumber.json"
+    systemProperty "cucumber.options",
+            "--plugin pretty --plugin json:target/cucumber.json"
     finalizedBy 'aggregate'
 }
